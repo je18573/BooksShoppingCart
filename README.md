@@ -67,7 +67,7 @@
                 <a href="http://maidot.blogspot.tw/">買大 (maidot) 的學習紀錄</a>＜<a href="http://maidot.blogspot.tw/2014/10/aspnet-mvc.html">使用ASP.NET MVC 實作購物網站</a>＞30天鐵人賽系列文章
             </li>
             <li>
-                (圖片上傳)參考：<a hhref="http://cpratt.co/file-uploads-in-asp-net-mvc-with-view-models/">File Uploads in ASP.NET MVC with View Models</a>
+                (圖片上傳)參考：<a href="http://cpratt.co/file-uploads-in-asp-net-mvc-with-view-models/">File Uploads in ASP.NET MVC with View Models</a>
             </li>
             <li>
                 (圖片壓縮)參考：<a href="http://demo.tc/">Demo</a>＜<a href="http://demo.tc/post/95">利用C#來做到圖檔縮圖的方式</a>＞
