@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BooksShoppingCart.Models.OrderDetails>
+
+@{
+    ViewBag.Title = "訂單單筆詳細資料";
+}
+
+<h2>@String.Format("訂單編號{0}-商品列表", Model.First().Order_Id)</h2>
+<hr />
+<table class="table table-striped table-hover table-bordered" id="example">
+    <thead>
+        <tr>
+            <th>
+                商品名稱
+            </th>
+            <th>
+                商品價格
+            </th>
+            <th>
+                購買數量
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Products.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("返回訂單列表", "Index")
+

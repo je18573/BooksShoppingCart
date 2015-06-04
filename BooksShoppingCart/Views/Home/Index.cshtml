@@ -1,0 +1,86 @@
+﻿@model IEnumerable<BooksShoppingCart.Models.Products>
+
+@{
+    ViewBag.Title = "首頁";
+}
+
+<div class="jumbotron">
+    <h1>WelCome Books</h1>
+    <div class="row">
+        <div class="col-sm-6 col-md-4">
+            <ul class="nav nav-pills">
+                <li><a href="@Url.Action("Index", "Home")">全部</a></li>
+                @foreach (var cate in (List<BooksShoppingCart.Models.Categories>)ViewData["CategoryList"])
+                {
+                    <li><a href="@Url.Action("Index", "Home", new { CategoryId = @cate.Id })">@cate.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img class="img-rounded img-responsive" src="@item.PhotoUrl" alt="@item.Name" />
+                    <div class="caption">
+                        <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                        <p>分類：<a href="@Url.Action("Index", "Home", new { CategoryId = @item.Category_Id })">@item.Categories.Name</a></p>
+                        <p>定價：@item.Price.ToString("0") 元</p>
+                        <p>作者：@Html.DisplayFor(modelItem => item.Author)</p>
+                        <p>出版社：@Html.DisplayFor(modelItem => item.Publisher)</p>
+                        <p>出版日期：@Html.DisplayFor(modelItem => item.PublishDT)</p>
+                        <p></p>
+                        <a onclick="AddToCart('@item.Id')" href="javascript:void(0);" class="btn btn-success" role="button">加入購物車</a>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-@item.Id">內容介紹</button>
+                    </div>                    
+                </div>
+            </div>
+            
+            <div class="modal fade bs-example-modal-lg-@item.Id tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg-@item.Id">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h3 class="modal-title" id="myModalLabel">@Html.DisplayFor(modelItem => item.Name)</h3>
+                            <img src="@item.PhotoUrl" alt="@item.Name" class="img-rounded img-responsive img-thumbnail" />
+                            <p>定價：@item.Price.ToString("0") 元</p>
+                            <p>作者：@Html.DisplayFor(modelItem => item.Author)</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h4>內容介紹</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+                                <div class="panel-footer">
+                                    <p>
+                                        出版社：@Html.DisplayFor(modelItem => item.Publisher)｜
+                                        出版日期：@Html.DisplayFor(modelItem => item.PublishDT)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a onclick="AddToCart('@item.Id')" href="javascript:void(0);" class="btn btn-success" role="button">加入購物車</a>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">關閉</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    }
+    else
+    {
+        <div class="thumbnail">
+            <h3>查無此分類產品！</h3>
+        </div>
+    }
+</div>

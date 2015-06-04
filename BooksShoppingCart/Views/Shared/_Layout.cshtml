@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Welcome 書店</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/datatablesCSS")
+    @Scripts.Render("~/bundles/modernizr")
+    <style type="text/css">
+        /* 購物車CSS樣式 */
+        ul.Cart li{
+            width: 300px;
+        }
+        ul.Cart li span{
+            margin: 3px;
+        }
+        #CartButtons{
+            display: inline-block;
+        }
+        #CartButtons > a{
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Welcome Books", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                    <li>@Html.ActionLink("關於", "About", "Home")</li>
+                    <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
+                    <li id="Cart">
+                        @Html.Partial("_CartPartial")
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Welcome Books (書店購物車練習網站)</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/datatables")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        /* 購物車操作JS */
+
+        $(document).ready(function () {
+            console.log("Ready!");
+        });
+
+        //加入商品至購物車
+        function AddToCart(Id) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddToCart","Cart")',
+                data: { Id: Id }
+            }).done(function (msg) {
+                $("li#Cart").html(msg);
+            });
+        }
+
+        //將商品從購物車移除
+        function RemoveFromCart(Id)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("RemoveFromCart", "Cart")',
+                data: { Id: Id }
+            }).done(function (msg) {
+                $("li#Cart").html(msg);
+            });
+        }
+
+        //清空購物車
+        function ClearCart()
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("ClearCart", "Cart")',
+                data: {}
+            }).done(function (msg) {
+                $("li#Cart").html(msg);
+            });
+        }
+    </script>
+</body>
+</html>

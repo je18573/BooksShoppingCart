@@ -1,0 +1,93 @@
+﻿@model BooksShoppingCart.Models.OrderViewModel
+@{
+    ViewBag.Title = "結帳";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //取得目前購物車資料
+    var cart = BooksShoppingCart.Models.Cart.Operation.GetCurrentCart();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@* 列出購物車內商品，讓使用者作最後確認 *@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>封面</th>
+            <th>書名</th>
+            <th>定價</th>
+            <th>數量</th>
+            <th>小計</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pd in cart)
+        {
+            <tr>
+                <td><img src="@pd.PhotoUrl" width="50" height="50"/></td>
+                <td>@pd.Name</td>
+                <td>@pd.Price.ToString("0")</td>
+                <td>@pd.Quantity</td>
+                <td>@pd.Amount.ToString("0")</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3"></td>
+            <td>總計</td>
+            <td>@cart.TotalAmount.ToString("0")</td>
+        </tr>
+    </tbody>
+</table>
+
+@if (cart.Count > 0)
+{
+    <hr />
+    @* 使用者填寫寄送資訊 *@
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="TotalAmount" value="@cart.TotalAmount" />
+        <div class="form-horizontal">
+            <h4>收貨人資訊</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger"})
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ContactName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContactName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContactPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ContactAddress, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ContactAddress, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContactAddress, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Memo, new { @class = "form-control" } )
+                    @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="確定購買" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "完成訂購";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <p>您的訂單已經完成，將盡快為您出貨！</p>
+    <p>
+        @Html.ActionLink("移至我的訂單", "MyOrder", "Order")
+    </p>
+</div>
+
+

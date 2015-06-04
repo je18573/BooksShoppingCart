@@ -1,0 +1,37 @@
+﻿@model BooksShoppingCart.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "刪除使用者";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>您確定要刪除此使用者嗎？</h3>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label("電子信箱(Email)")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.Label("暱稱")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NickName)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="刪除使用者" class="btn btn-default" />｜
+            @Html.ActionLink("返回使用者列表", "Index")
+        </div>
+    }
+</div>
+

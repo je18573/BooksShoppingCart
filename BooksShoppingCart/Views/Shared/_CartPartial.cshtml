@@ -1,0 +1,32 @@
+﻿@{
+    //目前購物車內容
+    var currentCart = BooksShoppingCart.Models.Cart.Operation.GetCurrentCart();  
+}
+
+<a id="CartDropDown" class="dropdown-toggle" data-toggle="dropdown">
+    @String.Format("購物車合計共{0}元 ({1})", currentCart.TotalAmount.ToString("0"), currentCart.Count)
+    <span class="caret"></span>
+</a>
+<ul class="dropdown-menu Cart" role="menu" aria-labelledby="CartDropDown">
+    @if (currentCart.Count > 0)
+    {
+        foreach(var cartItem in currentCart)
+        {
+            <li class="col-xs-12">
+                <span class="col-xs-9">@cartItem.Name @cartItem.Price.ToString("0") 元 X @cartItem.Quantity</span>
+                <span class="btn bg-danger col-xs-2" onclick="RemoveFromCart(@cartItem.Id)">X</span>
+            </li>
+        }
+        <li class="divider"></li>
+        <li>
+            <div id="CartButtons" class="col-xs-12 text-center">
+                <a class="btn btn-success col-xs-5 text-center" href="@Url.Action("Index", "Order", new { })">結帳</a>
+                <a class="btn btn-danger col-xs-5 text-center" onclick="ClearCart()">清空</a>
+            </div>
+        </li>
+    }
+    else
+    {
+        <li><a class="btn btn-default text-center" href="#">購物車目前無任何商品</a></li>
+    }
+</ul>

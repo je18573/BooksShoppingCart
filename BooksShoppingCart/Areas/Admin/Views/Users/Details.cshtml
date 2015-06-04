@@ -1,0 +1,50 @@
+﻿@model BooksShoppingCart.Models.ApplicationUser
+@{
+    ViewBag.Title = "使用者詳細資料";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <h4>使用者</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.Label("電子信箱(Email)")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.Label("暱稱")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NickName)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯使用者", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })｜
+    @Html.ActionLink("返回使用者列表", "Index")
+</p>
+<div class="row">
+    <h4>目前使用者的角色設定：</h4>
+    <hr />
+    @if (ViewBag.UserCount == 0)
+    {
+        <p class="text-danger">該使用者暫時沒有做角色設定</p>
+    }
+    <div class="col-xs-12">
+        <table class="table table-bordered">
+            @foreach (var item in ViewBag.RoleNames)
+            {
+                <tr>
+                    <td>
+                        @item
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+

@@ -1,0 +1,62 @@
+﻿@model BooksShoppingCart.Models.Categories
+
+@{
+    ViewBag.Title = "書籍分類詳細資料";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <h4>書籍分類</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯分類", "Edit", new { id = Model.Id }, new { @class = "btn btn-default"}) |
+    @Html.ActionLink("返回書籍分類列表", "Index")
+</p>
+
+<h4>位於此分類下的書籍清單：</h4>
+<hr />
+@if( ViewBag.ProductCount == 0)
+{
+    <p class="text-danger">此分類暫時沒有書籍。</p>
+}
+else
+{ 
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table table-striped table-hover table-bordered" id="example">
+            <thead>
+                <tr>
+                    <th>書名</th>
+                    <th>定價</th>
+                    <th>作者</th>
+                    <th>出版社</th>
+                    <th>是否上架</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pro in ViewBag.Products)
+                {
+                    <tr>
+                        <td><a href="@Url.Action("Details", "Products", new { id = pro.Id })">@pro.Name</a></td>
+                        <td>@pro.Price</td>
+                        <td>@pro.Author</td>
+                        <td>@pro.Publisher</td>
+                        <td>@if(@pro.IsPublic == true){ <p>是</p> } else {<p>否</p>}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+}

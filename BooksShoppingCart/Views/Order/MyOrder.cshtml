@@ -1,0 +1,66 @@
+﻿@model IEnumerable<BooksShoppingCart.Models.Orders>
+
+@{
+    ViewBag.Title = "我的訂單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table table-striped table-hover table-bordered" id="example">
+    <thead>
+        <tr>
+            <th>
+                收貨人姓名
+            </th>
+            <th>
+                收貨人聯絡電話
+            </th>
+
+            <th>
+                收貨人地址
+            </th>
+            <th>
+               總額
+            </th>
+            <th>
+                購買日期
+            </th>
+            <th>
+                備註
+            </th>
+            <th>
+               功能
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactAddress)
+                </td>
+                <td>
+                    @item.TotalPrice.ToString("0") 元
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BuyDT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Memo)
+                </td>
+                <td>
+                    @Html.ActionLink("商品明細", "MyOrderDetail", new { Id = item.Id }, new { @class = "btn btn-default" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
